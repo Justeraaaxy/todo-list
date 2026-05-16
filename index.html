@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>To Do List</title>
+    <style>
+      body {
+        background-color: #1a1a2e;
+        font-family: Arial;
+        text-align: center;
+        color: white;
+        padding: 40px;
+      }
+      .kartu {
+        background-color: #16213e;
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      h1 { color: #e94560; }
+      input {
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: 2px solid #e94560;
+        background: transparent;
+        color: white;
+        width: 60%;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: #e94560;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-left: 5px;
+      }
+      li {
+        list-style: none;
+        background-color: #0f3460;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 8px;
+        text-align: left;
+        font-size: 16px;
+        animation: muncul 0.3s ease;
+      }
+      @keyframes muncul {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="kartu">
+      <h1>📝 To Do List</h1>
+      <input id="tugas" type="text" placeholder="Tambah tugas baru...">
+      <button id="tambah">Tambah</button>
+      <ul id="daftar"></ul>
+      <p id="sisa">Total tugas: 0</p>
+    </div>
+    <script>
+      document.getElementById("tambah").onclick = function() {
+        var tugas = document.getElementById("tugas").value;
+        if (tugas == "") {
+          alert("Tugas tidak boleh kosong!");
+          return;
+        }
+        var li = document.createElement("li");
+        li.innerHTML = "✅ " + tugas + " <span style='float:right; cursor:pointer; color:#e94560;'>❌</span>";
+        li.onclick = function() {
+          li.style.textDecoration = "line-through";
+          li.style.opacity = "0.5";
+        }
+        li.querySelector("span").onclick = function(e) {
+          e.stopPropagation();
+          li.remove();
+          hitungSisa();
+        }
+        document.getElementById("daftar").appendChild(li);
+        document.getElementById("tugas").value = "";
+        hitungSisa();
+      }
+
+      document.getElementById("tugas").onkeypress = function(e) {
+        if (e.key == "Enter") {
+          document.getElementById("tambah").click();
+        }
+      }
+
+      function hitungSisa() {
+        var total = document.getElementById("daftar").children.length;
+        document.getElementById("sisa").innerHTML = "Total tugas: " + total;
+      }
+    </script>
+  </body>
+</html>
